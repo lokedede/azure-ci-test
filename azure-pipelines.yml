@@ -38,3 +38,5 @@ steps:
     echo "triggered by pr"
     echo "source branch is $(System.PullRequest.SourceBranch)"
     echo "target branch is $(System.PullRequest.TargetBranch)"
+  displayName: 'lalala'
+  condition: and(eq(variables['Build.Reason'], 'PullRequest'), contains(variables['System.PullRequest.TargetBranch'], 'develop'))
