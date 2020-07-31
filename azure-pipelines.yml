@@ -5,15 +5,38 @@
 
 trigger:
 - master
+- develop
+- feature/*
+
+pr: 
+- develop
+- master
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
+- script: |
+    echo "triggered by dev"
+    echo $(Build.SourceBranch)
   displayName: 'Run a one-line script'
+  condition: eq(variables['build.sourceBranch'], 'refs/heads/develop')
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    echo "triggered by master"
+    echo $(Build.SourceBranch)
+  displayName: 'Run a one-line script'
+  condition: eq(variables['build.sourceBranch'], 'refs/heads/master')
+
+- script: |
+    echo "triggered by feature"
+    echo $(Build.SourceBranch)
+  displayName: 'Run a one-line script'
+  condition: contains(variables['build.sourceBranch'], 'feature')
+
+- script: |
+    echo "triggered by pr"
+    echo "source branch is $(System.PullRequest.SourceBranch)"
+    echo "target branch is $(System.PullRequest.TargetBranch)"
+  displayName: 'lalala'
+  condition: and(eq(variables['Build.Reason'], 'PullRequest'), contains(variables['System.PullRequest.TargetBranch'], 'develop'))
