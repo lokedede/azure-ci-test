@@ -8,6 +8,10 @@ trigger:
 - develop
 - feature/*
 
+pr: 
+- develop
+- master
+
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -30,4 +34,7 @@ steps:
   displayName: 'Run a one-line script'
   condition: eq(variables['build.sourceBranch'], 'refs/heads/feature/*')
 
-
+- script: |
+    echo "triggered by pr"
+    echo "source branch is $(System.PullRequest.SourceBranch)"
+    echo "target branch is $(System.PullRequest.TargetBranch)"
