@@ -32,7 +32,7 @@ steps:
     echo "triggered by feature"
     echo $(Build.SourceBranch)
   displayName: 'Run a one-line script'
-  condition: eq(variables['build.sourceBranch'], 'refs/heads/feature/*')
+  condition: contains(variables['build.sourceBranch'], 'feature')
 
 - script: |
     echo "triggered by pr"
